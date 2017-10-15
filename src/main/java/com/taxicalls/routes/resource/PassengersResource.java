@@ -1,6 +1,6 @@
 package com.taxicalls.routes.resource;
 
-import com.taxicalls.routes.model.Route;
+import com.taxicalls.routes.model.Passenger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,15 +18,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/routes")
+@Path("/passengers")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequestScoped
-public class RoutesResource {
+public class PassengersResource {
 
     private final EntityManager em;
 
-    public RoutesResource() {
+    public PassengersResource() {
         Map<String, String> env = System.getenv();
         Map<String, Object> configOverrides = new HashMap<>();
         env.keySet().forEach((envName) -> {
@@ -41,26 +41,26 @@ public class RoutesResource {
     }
 
     @POST
-    public Response createRoute(Route route) {
+    public Response createPassenger(Passenger passenger) {
         em.getTransaction().begin();
-        em.persist(route);
+        em.persist(passenger);
         em.getTransaction().commit();
-        return Response.status(Response.Status.CREATED).entity(route).build();
+        return Response.status(Response.Status.CREATED).entity(passenger).build();
     }
 
     @GET
-    public Response getRoutes() {
-        List<Route> routes = em.createNamedQuery("Route.findAll", Route.class).getResultList();
-        return Response.ok(routes).build();
+    public Response getPassengers() {
+        List<Passenger> passengers = em.createNamedQuery("Passenger.findAll", Passenger.class).getResultList();
+        return Response.ok(passengers).build();
     }
 
     @GET
     @Path("/{id}")
-    public Response getRoute(@PathParam("id") Integer id) {
-        Route route = em.find(Route.class, id);
-        if (route == null) {
+    public Response getPassenger(@PathParam("id") Integer id) {
+        Passenger passenger = em.find(Passenger.class, id);
+        if (passenger == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(route).build();
+        return Response.ok(passenger).build();
     }
 }

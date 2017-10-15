@@ -16,6 +16,11 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
     private final Long longitude;
     private final Long latitude;
 
+    public Coordinate() {
+        this.longitude = null;
+        this.latitude = null;
+    }
+
     public Coordinate(Long longitude, Long latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
@@ -27,6 +32,13 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
 
     public Long getLongitude() {
         return longitude;
+    }
+
+    public double getEuclidienDistance(Coordinate coordinate) {
+        return Math.sqrt(
+                Math.pow(this.getLatitude() - coordinate.getLatitude(), 2)
+                + Math.pow(this.getLongitude() - coordinate.getLongitude(), 2)
+        );
     }
 
     @Override

@@ -6,11 +6,17 @@
 package com.taxicalls.routes.model;
 
 import java.io.Serializable;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -23,8 +29,21 @@ public class Route implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address addressFrom;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address addressTo;
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Driver driver;
+
+    @OneToMany(cascade = CascadeType.PERSIST)
+    private Set<Passenger> passengers;
+    
+    @Enumerated(EnumType.STRING)
+    private Progress progress;
 
     protected Route() {
     }
@@ -45,9 +64,16 @@ public class Route implements Serializable {
         return addressTo;
     }
 
-    public boolean includes(Address address) {
-        return getAddressFrom().getCoordinate().getLatitude() < address.getCoordinate().getLatitude();
-//        return getAddressFrom().isLesserThan(address) && getAddressTo().isGreaterThan(address);
+    public Progress getProgress() {
+        return progress;
+    }
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public Set<Passenger> getPassengers() {
+        return passengers;
     }
 
 }

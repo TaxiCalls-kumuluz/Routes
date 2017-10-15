@@ -3,6 +3,9 @@
   <persistence-unit name="routes" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.taxicalls.routes.model.Route</class>
+    <class>com.taxicalls.routes.model.Address</class>
+    <class>com.taxicalls.routes.model.Driver</class>
+    <class>com.taxicalls.routes.model.Passenger</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://routes-database:3306/routes?zeroDateTimeBehavior=convertToNull"/>

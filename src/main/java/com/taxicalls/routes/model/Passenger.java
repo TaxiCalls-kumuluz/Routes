@@ -8,7 +8,6 @@ package com.taxicalls.routes.model;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
@@ -16,21 +15,10 @@ import javax.persistence.Id;
  * @author romulo
  */
 @Entity
-public class Address implements Serializable {
+public class Passenger implements Serializable {
 
     @Id
-    @GeneratedValue
     private Long id;
-
-    private Long longitude;
-    private Long latitude;
-
-    public Address() {
-    }
-
-    public Coordinate getCoordinate() {
-        return new Coordinate(longitude, latitude);
-    }
 
     public Long getId() {
         return id;
@@ -41,11 +29,19 @@ public class Address implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 71 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Address)) {
+        if (!(obj instanceof Passenger)) {
             return false;
         }
-        Address other = (Address) obj;
-        return Objects.equals(this.getId(), other.getId());
+        Passenger other = (Passenger) obj;
+        return getId().equals(other.getId());
     }
+
 }
