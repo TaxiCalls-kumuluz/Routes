@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.routes.resource;
+package com.taxicalls.trip.resources;
 
-import com.taxicalls.routes.model.Coordinate;
+import com.taxicalls.trip.model.Coordinate;
 
 /**
  *

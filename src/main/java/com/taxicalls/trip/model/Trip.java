@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.routes.model;
+package com.taxicalls.trip.model;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -23,8 +23,8 @@ import javax.persistence.OneToOne;
  * @author romulo
  */
 @Entity
-@NamedQuery(name = "Route.findAll", query = "SELECT r FROM Route r")
-public class Route implements Serializable {
+@NamedQuery(name = "Trip.findAll", query = "SELECT t FROM Trip t")
+public class Trip implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,10 +45,10 @@ public class Route implements Serializable {
     @Enumerated(EnumType.STRING)
     private Progress progress;
 
-    protected Route() {
+    protected Trip() {
     }
 
-    public Route(Integer id) {
+    public Trip(Integer id) {
         this.id = id;
     }
 

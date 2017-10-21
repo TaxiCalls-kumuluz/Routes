@@ -1,4 +1,4 @@
-package com.taxicalls.routes.service;
+package com.taxicalls.trip.service;
 
 import com.taxicalls.utils.Eager;
 import com.taxicalls.utils.ServiceRegistry;
@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 @Eager
 @ApplicationScoped
-public class RoutesService {
+public class TripService {
 
     @Inject
     private ServiceRegistry services;
@@ -17,9 +17,9 @@ public class RoutesService {
     private final String serviceName;
     private final String endpointURI;
 
-    public RoutesService() {
+    public TripService() {
         this.serviceName = getClass().getSimpleName();
-        this.endpointURI = "http://routes:8080/";
+        this.endpointURI = "http://" + serviceName.replace("Service", "").toLowerCase() + ":8080/";
     }
 
     @PostConstruct

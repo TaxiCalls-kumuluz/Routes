@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.routes.model;
+package com.taxicalls.trip.model;
+
+import java.io.Serializable;
 
 /**
  *
  * @author romulo
  */
-enum Status {
-    WORKING, NOT_WORKING;
+public enum Progress implements Serializable {
+    MOVING_TO, IN_PROGRESS, CONCLUDED;
 }

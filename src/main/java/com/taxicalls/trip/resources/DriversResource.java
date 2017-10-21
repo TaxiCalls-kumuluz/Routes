@@ -1,7 +1,7 @@
-package com.taxicalls.routes.resource;
+package com.taxicalls.trip.resources;
 
-import com.taxicalls.routes.model.Coordinate;
-import com.taxicalls.routes.model.Driver;
+import com.taxicalls.trip.model.Coordinate;
+import com.taxicalls.trip.model.Driver;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class DriversResource {
                 configOverrides.put("javax.persistence.jdbc.password", env.get(envName));
             }
         });
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("routes", configOverrides);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trip", configOverrides);
         this.em = emf.createEntityManager();
     }
 
