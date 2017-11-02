@@ -56,10 +56,10 @@ public class TripsResource {
 
     @GET
     @Path("/{id}")
-    public Response getTrip(@PathParam("id") Integer id) {
+    public Response getTrip(@PathParam("id") Long id) {
         Trip trip = em.find(Trip.class, id);
         if (trip == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.ok("{}").build();
         }
         return Response.ok(trip).build();
     }

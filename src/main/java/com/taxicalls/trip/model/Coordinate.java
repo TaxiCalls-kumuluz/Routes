@@ -21,6 +21,11 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
         this.latitude = null;
     }
 
+    public Coordinate(int longitude, int latitude) {
+        this.longitude = (long) longitude;
+        this.latitude = (long) latitude;
+    }
+
     public Coordinate(Long longitude, Long latitude) {
         this.longitude = longitude;
         this.latitude = latitude;

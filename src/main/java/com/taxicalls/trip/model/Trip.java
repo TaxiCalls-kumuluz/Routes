@@ -28,7 +28,7 @@ public class Trip implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private Address addressFrom;
@@ -48,11 +48,11 @@ public class Trip implements Serializable {
     protected Trip() {
     }
 
-    public Trip(Integer id) {
+    public Trip(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

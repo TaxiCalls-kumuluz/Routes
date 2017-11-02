@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.taxicalls.trip.model;
+package com.taxicalls.protocol;
 
 /**
  *
  * @author romulo
  */
 public enum Status {
-    WORKING, NOT_WORKING;
+    SUCCESSFUL, NOT_FOUND, ERROR;
 }

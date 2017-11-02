@@ -56,10 +56,10 @@ public class PassengersResource {
 
     @GET
     @Path("/{id}")
-    public Response getPassenger(@PathParam("id") Integer id) {
+    public Response getPassenger(@PathParam("id") Long id) {
         Passenger passenger = em.find(Passenger.class, id);
         if (passenger == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.ok("{}").build();
         }
         return Response.ok(passenger).build();
     }

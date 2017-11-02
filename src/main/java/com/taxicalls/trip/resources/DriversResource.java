@@ -1,7 +1,9 @@
 package com.taxicalls.trip.resources;
 
+import com.taxicalls.protocol.Response;
 import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
+import com.taxicalls.trip.model.Trip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("/drivers")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,28 +46,37 @@ public class DriversResource {
     @POST
     public Response createDriver(Driver driver) {
         if (driver.getId() == null) {
-            return Response.status(Response.Status.PARTIAL_CONTENT).entity(driver).build();
+            return Response.error("missing id");
         }
         em.getTransaction().begin();
         em.persist(driver);
         em.getTransaction().commit();
-        return Response.status(Response.Status.CREATED).entity(driver).build();
+        return Response.successful(driver);
     }
 
     @GET
     public Response getDrivers() {
         List<Driver> drivers = em.createNamedQuery("Driver.findAll", Driver.class).getResultList();
-        return Response.ok(drivers).build();
+        return Response.successful(drivers);
     }
 
     @GET
     @Path("/{id}")
-    public Response getDriver(@PathParam("id") Integer id) {
+    public Response getDriver(@PathParam("id") Long id) {
         Driver driver = em.find(Driver.class, id);
         if (driver == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.notFound();
         }
-        return Response.ok(driver).build();
+        return Response.successful(driver);
+    }
+
+    @GET
+    @Path("/available")
+    public Response getAvailableDriversInfo() {
+        AvailableDriversRequest availableDriversRequest = new AvailableDriversRequest();
+        availableDriversRequest.setRatio(0);
+        availableDriversRequest.setCoordinate(new Coordinate(0, 0));
+        return Response.successful(availableDriversRequest);
     }
 
     @POST
@@ -74,13 +84,19 @@ public class DriversResource {
     public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         Coordinate coordinate = availableDriversRequest.getCoordinate();
         int ratio = availableDriversRequest.getRatio();
+        List<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
         List<Driver> drivers = em.createNamedQuery("Driver.findAll", Driver.class).getResultList();
+        List<Driver> busyDrivers = new ArrayList<>();
+        trips.forEach((trip) -> {
+            busyDrivers.add(trip.getDriver());
+        });
         List<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers) {
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {
                 availableDrivers.add(driver);
             }
         }
-        return Response.ok(availableDrivers).build();
+        availableDrivers.removeAll(busyDrivers);
+        return Response.successful(availableDrivers);
     }
 }

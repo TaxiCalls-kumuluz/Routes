@@ -6,6 +6,7 @@
 package com.taxicalls.trip.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,7 +25,6 @@ public class Driver implements Serializable {
     private Long id;
 
     private Long atualLatitude;
-
     private Long atualLongitude;
 
     @Enumerated(EnumType.STRING)
@@ -38,8 +38,36 @@ public class Driver implements Serializable {
         this.id = id;
     }
 
+    public Long getAtualLatitude() {
+        return atualLatitude;
+    }
+
+    public Long getAtualLongitude() {
+        return atualLongitude;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
     public Coordinate getAtualCoordinate() {
         return new Coordinate(atualLongitude, atualLatitude);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Driver)) {
+            return false;
+        }
+        Driver other = (Driver) obj;
+        return getId().equals(other.getId());
     }
 
 }
