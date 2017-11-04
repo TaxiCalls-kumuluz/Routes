@@ -5,6 +5,7 @@ import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
 import com.taxicalls.trip.model.Trip;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,10 @@ public class DriversResource {
         if (driver.getId() == null) {
             return Response.error("missing id");
         }
+        Driver stored = em.find(Driver.class, driver.getId());
+        if (stored != null) {
+            return Response.error("already exists");
+        }
         em.getTransaction().begin();
         em.persist(driver);
         em.getTransaction().commit();
@@ -84,19 +89,35 @@ public class DriversResource {
     public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         Coordinate coordinate = availableDriversRequest.getCoordinate();
         int ratio = availableDriversRequest.getRatio();
-        List<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
-        List<Driver> drivers = em.createNamedQuery("Driver.findAll", Driver.class).getResultList();
-        List<Driver> busyDrivers = new ArrayList<>();
+        Collection<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
+        Collection<Driver> drivers = em.createNamedQuery("Driver.findAll", Driver.class).getResultList();
+        Collection<Driver> busyDrivers = new ArrayList<>();
         trips.forEach((trip) -> {
             busyDrivers.add(trip.getDriver());
         });
-        List<Driver> availableDrivers = new ArrayList<>();
+        Collection<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers) {
+            if (driver.getAtualCoordinate() == null) {
+                continue;
+            }
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {
                 availableDrivers.add(driver);
             }
         }
         availableDrivers.removeAll(busyDrivers);
         return Response.successful(availableDrivers);
+    }
+
+    @POST
+    @Path("/update")
+    public Response updateDriver(Driver driver) {
+        Driver stored = em.find(Driver.class, driver.getId());
+        if (stored == null) {
+            return Response.notFound();
+        }
+        em.getTransaction().begin();
+        em.merge(driver);
+        em.getTransaction().commit();
+        return Response.successful();
     }
 }

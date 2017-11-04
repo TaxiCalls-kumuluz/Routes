@@ -1,5 +1,6 @@
 package com.taxicalls.trip.resources;
 
+import com.taxicalls.protocol.Response;
 import com.taxicalls.trip.model.Trip;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 @Path("/trips")
 @Produces(MediaType.APPLICATION_JSON)
@@ -43,15 +43,15 @@ public class TripsResource {
     @POST
     public Response createTrip(Trip trip) {
         em.getTransaction().begin();
-        em.persist(trip);
+        em.merge(trip);
         em.getTransaction().commit();
-        return Response.status(Response.Status.CREATED).entity(trip).build();
+        return Response.successful(trip);
     }
 
     @GET
     public Response getTrips() {
         List<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
-        return Response.ok(trips).build();
+        return Response.successful(trips);
     }
 
     @GET
@@ -59,8 +59,8 @@ public class TripsResource {
     public Response getTrip(@PathParam("id") Long id) {
         Trip trip = em.find(Trip.class, id);
         if (trip == null) {
-            return Response.ok("{}").build();
+            return Response.notFound();
         }
-        return Response.ok(trip).build();
+        return Response.successful(trip);
     }
 }

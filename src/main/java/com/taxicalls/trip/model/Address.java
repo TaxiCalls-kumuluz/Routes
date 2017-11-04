@@ -32,6 +32,11 @@ public class Address implements Serializable {
         return new Coordinate(longitude, latitude);
     }
 
+    public void setCoordinate(Coordinate coordinate) {
+        this.latitude = coordinate.getLatitude();
+        this.longitude = coordinate.getLongitude();
+    }
+
     public Long getId() {
         return id;
     }
@@ -41,11 +46,18 @@ public class Address implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.id);
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Address)) {
             return false;
         }
         Address other = (Address) obj;
-        return Objects.equals(this.getId(), other.getId());
+        return Objects.equals(this.getCoordinate(), other.getCoordinate());
     }
 }

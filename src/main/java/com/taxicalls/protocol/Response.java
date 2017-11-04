@@ -15,6 +15,12 @@ public class Response {
     private final String message;
     private final Object entity;
 
+    protected Response() {
+        this.status = null;
+        this.message = null;
+        this.entity = null;
+    }
+
     public Response(Status status) {
         this.status = status;
         this.message = null;
@@ -48,7 +54,7 @@ public class Response {
     public static Response notFound() {
         return new Response(Status.NOT_FOUND);
     }
-    
+
     public static Response error(String message) {
         return new Response(Status.ERROR, message);
     }
@@ -60,7 +66,7 @@ public class Response {
     public static Response successful() {
         return new Response(Status.SUCCESSFUL);
     }
-    
+
     public Status getStatus() {
         return status;
     }

@@ -30,6 +30,12 @@ public class Passenger implements Serializable {
         this.id = id;
     }
 
+    public void setEmail(String email) {
+    }
+
+    public void setPassword(String password) {
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;

@@ -6,12 +6,13 @@
 package com.taxicalls.trip.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
  * @author romulo
  */
-public class Coordinate implements Serializable, Comparable<Coordinate> {
+public class Coordinate implements Serializable {
 
     private final Long longitude;
     private final Long latitude;
@@ -47,8 +48,20 @@ public class Coordinate implements Serializable, Comparable<Coordinate> {
     }
 
     @Override
-    public int compareTo(Coordinate coordinate) {
-        return 1;
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.longitude);
+        hash = 29 * hash + Objects.hashCode(this.latitude);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Coordinate)) {
+            return false;
+        }
+        Coordinate other = (Coordinate) obj;
+        return Objects.equals(this.getLatitude(), other.getLatitude()) && Objects.equals(this.getLongitude(), other.getLongitude());
     }
 
 }
