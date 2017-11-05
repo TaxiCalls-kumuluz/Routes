@@ -89,6 +89,15 @@ public class DriversResource {
     public Response getAvailableDrivers(AvailableDriversRequest availableDriversRequest) {
         Coordinate coordinate = availableDriversRequest.getCoordinate();
         int ratio = availableDriversRequest.getRatio();
+        if (coordinate == null) {
+            return Response.error("coordinate incomplete");
+        }
+        if (coordinate.getLatitude() == null) {
+            return Response.error("latitude incomplete");
+        }
+        if (coordinate.getLongitude() == null) {
+            return Response.error("longitude incomplete");
+        }
         Collection<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
         Collection<Driver> drivers = em.createNamedQuery("Driver.findAll", Driver.class).getResultList();
         Collection<Driver> busyDrivers = new ArrayList<>();
@@ -98,6 +107,12 @@ public class DriversResource {
         Collection<Driver> availableDrivers = new ArrayList<>();
         for (Driver driver : drivers) {
             if (driver.getAtualCoordinate() == null) {
+                continue;
+            }
+            if (driver.getAtualCoordinate().getLatitude() == null) {
+                continue;
+            }
+            if (driver.getAtualCoordinate().getLongitude() == null) {
                 continue;
             }
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {
