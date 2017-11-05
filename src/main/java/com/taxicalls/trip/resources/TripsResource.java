@@ -1,6 +1,7 @@
 package com.taxicalls.trip.resources;
 
 import com.taxicalls.protocol.Response;
+import com.taxicalls.trip.model.Progress;
 import com.taxicalls.trip.model.Trip;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +47,21 @@ public class TripsResource {
         em.merge(trip);
         em.getTransaction().commit();
         return Response.successful(trip);
+    }
+
+    @POST
+    @Path("/update")
+    public Response updateTrip(Trip trip) {
+        List<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
+        em.getTransaction().begin();
+        for (Trip stored : trips) {
+            if (stored.getDriver().equals(trip.getDriver())) {
+                stored.setProgress(Progress.CONCLUDED);
+                em.merge(stored);
+            }
+        }
+        em.getTransaction().commit();
+        return Response.successful();
     }
 
     @GET

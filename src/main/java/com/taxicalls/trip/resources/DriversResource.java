@@ -3,6 +3,7 @@ package com.taxicalls.trip.resources;
 import com.taxicalls.protocol.Response;
 import com.taxicalls.trip.model.Coordinate;
 import com.taxicalls.trip.model.Driver;
+import com.taxicalls.trip.model.Status;
 import com.taxicalls.trip.model.Trip;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -113,6 +114,9 @@ public class DriversResource {
                 continue;
             }
             if (driver.getAtualCoordinate().getLongitude() == null) {
+                continue;
+            }
+            if (driver.getStatus().equals(Status.NOT_WORKING)) {
                 continue;
             }
             if (driver.getAtualCoordinate().getEuclidienDistance(coordinate) <= ratio) {

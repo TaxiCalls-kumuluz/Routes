@@ -35,13 +35,13 @@ public class Trip implements Serializable {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private Address addressTo;
-    
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Driver driver;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     private Set<Passenger> passengers;
-    
+
     @Enumerated(EnumType.STRING)
     private Progress progress;
 
@@ -66,6 +66,10 @@ public class Trip implements Serializable {
 
     public Progress getProgress() {
         return progress;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
     }
 
     public Driver getDriver() {
