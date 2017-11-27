@@ -30,6 +30,8 @@ public class Driver implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    private String car;
+    
     public Long getId() {
         return id;
     }
@@ -62,6 +64,17 @@ public class Driver implements Serializable {
 
     public Coordinate getAtualCoordinate() {
         return new Coordinate(atualLongitude, atualLatitude);
+    }
+
+    public String getCar() {
+        return car;
+    }
+
+    public void setCar(String car) {
+        this.car = car;
+    }
+    
+    public void setAccount(String account){
     }
 
     @Override

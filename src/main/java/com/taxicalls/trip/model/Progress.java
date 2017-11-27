@@ -12,5 +12,5 @@ import java.io.Serializable;
  * @author romulo
  */
 public enum Progress implements Serializable {
-    MOVING_TO, IN_PROGRESS, CONCLUDED;
+    REQUESTED, CANCELED, REJECTED, MOVING_TO, IN_PROGRESS, CONCLUDED;
 }

@@ -139,4 +139,23 @@ public class DriversResource {
         em.getTransaction().commit();
         return Response.successful();
     }
+
+    @POST
+    @Path("/choose")
+    public Response chooseDriver(ChooseDriverRequest chooseDriverRequest) {
+        Collection<Trip> trips = em.createNamedQuery("Trip.findAll", Trip.class).getResultList();
+        for (Trip trip : trips) {
+            if (trip.getAuthor() == null) {
+                continue;
+            }
+            if (trip.getAuthor().equals(chooseDriverRequest.getPassenger())) {
+                trip.setDriver(chooseDriverRequest.getDriver());
+                em.getTransaction().begin();
+                em.merge(trip);
+                em.getTransaction().commit();
+                return Response.successful();
+            }
+        }
+        return Response.error("driver or trip not found");
+    }
 }

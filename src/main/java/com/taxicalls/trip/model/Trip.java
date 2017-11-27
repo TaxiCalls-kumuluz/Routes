@@ -39,6 +39,9 @@ public class Trip implements Serializable {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Driver driver;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Passenger author;
+
     @ManyToMany(cascade = CascadeType.MERGE)
     private Set<Passenger> passengers;
 
@@ -74,6 +77,14 @@ public class Trip implements Serializable {
 
     public Driver getDriver() {
         return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
+
+    public Passenger getAuthor() {
+        return author;
     }
 
     public Set<Passenger> getPassengers() {
